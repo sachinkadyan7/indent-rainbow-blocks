@@ -142,11 +142,11 @@ export function activate(context: vscode.ExtensionContext) {
 
   let indentationDecorationTypes = colorMap.map(color => vscode.window.createTextEditorDecorationType({
     backgroundColor: color,
-    // isWholeLine: true
+    isWholeLine: true
   }));
   let textBackgroundDecorationTypes = colorMap.map(color => vscode.window.createTextEditorDecorationType({
     backgroundColor: color,
-    // isWholeLine: true
+    isWholeLine: true
   }));
 
   // -- Store/update colors
