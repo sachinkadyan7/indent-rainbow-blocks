@@ -142,9 +142,13 @@ export function activate(context: vscode.ExtensionContext) {
 
   let indentationDecorationTypes = colorMap.map(color => vscode.window.createTextEditorDecorationType({
     backgroundColor: color,
-    isWholeLine: true
+    // isWholeLine: true
   }));
   let textBackgroundDecorationTypes = colorMap.map(color => vscode.window.createTextEditorDecorationType({
+    backgroundColor: color,
+    // isWholeLine: true
+  }));
+  let blockBackgroundDecorationTypes = colorMap.map(color => vscode.window.createTextEditorDecorationType({
     backgroundColor: color,
     isWholeLine: true
   }));
@@ -175,6 +179,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
     const indentationDecorations: { range: vscode.Range }[][] = colorMap.map(() => []);
     const textBackgroundDecorations: { range: vscode.Range }[][] = colorMap.map(() => []);
+    const blockBackgroundDecorations: { range: vscode.Range }[][] = colorMap.map(() => []);
 
     // DETECT NO INDENTATION
     let match;
@@ -223,6 +228,8 @@ export function activate(context: vscode.ExtensionContext) {
           //   console.log('      Forwards coloring characters:', range.start.character*tabWidth, '-', range.end.character);
           // }
         }
+        var range = new vscode.Range(start.line, 0, start.line, Number.MAX_VALUE);
+        blockBackgroundDecorations[colorIndex].push({ range: range });
         // startIndex += tabWidth;
         startIndex += incrementValue;
       }
@@ -238,6 +245,7 @@ export function activate(context: vscode.ExtensionContext) {
       // console.log('          Section:', textBackgroundDecorations[i]);
       activeEditor.setDecorations(indentationDecorationTypes[i], indentationDecorations[i]);
       activeEditor.setDecorations(textBackgroundDecorationTypes[i], textBackgroundDecorations[i]);
+      activeEditor.setDecorations(blockBackgroundDecorationTypes[i], blockBackgroundDecorations[i]);
     }
 
     // DEBUG BACKGROUND COLOR APPLICATION
